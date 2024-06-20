@@ -1,64 +1,45 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.Stack;
+import java.io.*;
+import java.util.*;
 
 public class Main {
 
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-    Stack<Character> stack;
-
-    int check(){
-        if(stack.empty())
-            return 1;
-        else
-            return 0;
-    }
-    void run() {
-
+    
+    void run(){
         try {
+            int T = Integer.parseInt(br.readLine());
+            Stack<Character>stack = new Stack<>();
 
-            int N = Integer.parseInt(br.readLine());
+            for(int i=0;i<T;i++){
+                String str = br.readLine();
 
-            for(int i=0;i<N;i++){
-                String s = br.readLine();
-                stack = new Stack<>();
-                int count=0;
+                for(int j=0;j<str.length();j++){
+                    char c = str.charAt(j);
 
-                for(int j=0;j<s.length();j++){
-                    char c = s.charAt(j);
-
-                    if(stack.empty() && c==')') {
-                        count=-1;
-                        break;
-                    }
-
-                    if(c == '(')
+                    if(c=='('){
                         stack.push(c);
-                    else if(c == ')'){
-                        stack.pop();
+                    }else if(c==')'){
+                        if(!stack.isEmpty())
+                            stack.pop();
+                        else {
+                            bw.write("NO\n");
+                            break;
+                        }
                     }
 
+                    if(j==str.length()-1){
+                        if(stack.isEmpty()) bw.write("YES\n");
+                        else bw.write("NO\n");
+                    }
                 }
-
-                if(!stack.empty())
-                    bw.write("NO\n");
-                else if (count<0)
-                    bw.write("NO\n");
-                else
-                    bw.write("YES\n");
+                stack.clear();
             }
-
             bw.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        }catch(Exception e){}
     }
-
     public static void main(String[] args) {
-        Main b = new Main();
-        b.run();
+        Main baekJoon = new Main();
+        baekJoon.run();
     }
 }
